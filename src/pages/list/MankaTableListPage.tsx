@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
     Chip,
     Paper,
@@ -20,7 +20,8 @@ import IconButton from "@mui/material/IconButton";
 import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
 import {TableColumn} from "../../types/func";
-import Stack from "@mui/material/Stack";
+import StarIcon from "@mui/icons-material/Star";
+import StarBorderIcon from "@mui/icons-material/StarBorder";
 
 export interface MankaTableListPageProps {
 
@@ -70,7 +71,7 @@ export default function MankaTableListPage(options: MankaTableListPageProps) {
 
     const {mankaData, clickTagCallback, addToFavorite, deleteFavorite} = options;
 
-    const [mankaTableRows, setMankaTableRows] = useState<MankaTableRow[]>(mankaData.map(manka => getMankaTableRow(manka)));
+    const [mankaTableRows, setMankaTableRows] = useState<MankaTableRow[]>([]);
 
     // 当前的manka
     const [currentManka, setCurrentManka] = useState<MankaArchive>();
@@ -79,6 +80,11 @@ export default function MankaTableListPage(options: MankaTableListPageProps) {
 
     // coverPopoverAnchor
     const [coverPopoverAnchor, setCoverPopoverAnchor] = useState<HTMLElement | null>(null);
+
+
+    useEffect(() => {
+        setMankaTableRows(mankaData.map(manka => getMankaTableRow(manka)))
+    }, [mankaData]);
 
     const onTitleMouseEnter = (event: React.MouseEvent<HTMLElement>, manka: MankaArchive) => {
         console.log("onTitleMouseEnter", event.currentTarget)
@@ -148,13 +154,15 @@ export default function MankaTableListPage(options: MankaTableListPageProps) {
                     {
                         manka.belongFavoriteId ? <Tooltip title={"取消收藏"}>
                             <IconButton aria-label="settings"
+                                        sx={{color: 'red'}}
                                         onClick={() => deleteFavorite && manka.belongFavoriteId ? deleteFavorite(manka.belongFavoriteId) : null}>
-                                <CloseIcon/>
+                                <StarIcon/>
                             </IconButton>
                         </Tooltip> : <Tooltip title={"加入收藏"}>
                             <IconButton aria-label="settings"
+                                        sx={{color: 'green'}}
                                         onClick={() => addToFavorite ? addToFavorite(manka) : null}>
-                                <AddIcon/>
+                                <StarBorderIcon/>
                             </IconButton>
                         </Tooltip>
                     }

@@ -4,14 +4,12 @@ import {
     Button,
     ButtonGroup,
     Card,
-    CardHeader,
     CardMedia,
     CircularProgress,
     Container,
     Input,
     MenuItem,
     Pagination,
-    Paper,
     Select,
     SelectChangeEvent,
     Typography
@@ -31,7 +29,6 @@ import _ from "lodash";
 import InfiniteScroll from 'react-infinite-scroller';
 
 const preloadPage = 8
-
 
 
 export default function MankaDetailPage() {
@@ -136,7 +133,7 @@ export default function MankaDetailPage() {
                 img.onload = null;
                 img.onerror = null;
             };
-        }, []);
+        }, [archiveItem.archiveItemIndex]);
         return (
             <React.Fragment>
                 <Box>
@@ -159,16 +156,15 @@ export default function MankaDetailPage() {
         archiveItem: ArchiveItem,
         index: number
     }> = ({archiveItem, index}) => {
-        const imageUrl = getImgUrl(archiveItem)
         const [imageSrc, setImageSrc] = useState<string>(loadImg);
         // const [loadCount, setLoadCount] = useState(0);
         useEffect(() => {
             const img = new Image();
-            img.src = imageUrl;
+            img.src = getImgUrl(archiveItem);
 
             // loaded的钩子
             img.onload = () => {
-                setImageSrc(imageUrl);
+                setImageSrc(getImgUrl(archiveItem));
             };
 
             img.onerror = () => {
@@ -180,7 +176,7 @@ export default function MankaDetailPage() {
                 img.onload = null;
                 img.onerror = null;
             };
-        }, [imageUrl]);
+        }, [archiveItem.archiveItemIndex]);
         return (
             <React.Fragment>
                 <Box>
@@ -196,6 +192,12 @@ export default function MankaDetailPage() {
                             loading="lazy"
                         />
                     </Card>
+                    {/*<img*/}
+                    {/*    alt={archiveItem.archiveItemName}*/}
+                    {/*    src={imageSrc}*/}
+                    {/*    style={{cursor: 'pointer'}}*/}
+                    {/*    loading="lazy"*/}
+                    {/*/>*/}
                     <Box display="flex" alignItems="center" justifyContent="center">
                         <Typography>{`${archiveItem.archiveItemName}::${sizeToString(archiveItem.archiveItemSize)}::${index + 1}/${mankaArchive?.archiveTotalPage}`}</Typography>
                     </Box>
@@ -294,7 +296,7 @@ export default function MankaDetailPage() {
                         showLastButton/>
                 </Box>
                 <Box>
-                    <ArchiveItemForPage archiveItem={imgItems[page - 1]} index={page - 1}/>
+                    <ArchiveItemForPage archiveItem={imgItems[page - 1]} index={page - 1} key={imgItems[page - 1].archiveItemIndex}/>
                 </Box>
                 <Box display="flex" alignItems="center" justifyContent="center">
                     <Pagination

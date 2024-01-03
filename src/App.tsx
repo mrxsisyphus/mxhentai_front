@@ -5,7 +5,6 @@ import {Breadcrumbs, createTheme, Link, ThemeProvider, useMediaQuery} from '@mui
 import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 import Login from './pages/login/Login';
 import AuthWrapComponent from './AuthWrapComponent';
-import FavoriteImgListPage from "./pages/list/FavoriteImgListPage";
 import FavoriteList from "./pages/list/FavoriteList";
 import TaskPage from "./pages/admin/TaskPage";
 import TaskLogPage from "./pages/admin/TaskLogPage";

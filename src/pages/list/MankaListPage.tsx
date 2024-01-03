@@ -31,10 +31,26 @@ import MankaTableListPage from './MankaTableListPage';
 import API from '../../middleware/api';
 import {Response} from '../../types/response';
 
+import {useLocation} from "react-router";
+
+function useQueryParams() {
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+
+    // 将URLSearchParams对象转换为普通对象
+    let params: any = {};
+    searchParams.forEach((value, name, searchParams) => {
+        params[name] = value
+    })
+
+    return params;
+}
 
 const MankaListPage: React.FC = () => {
+    const {queryText = ""} = useQueryParams()
+
     // searchText
-    const [searchText, setSearchText] = useState<string>('');
+    const [searchText, setSearchText] = useState<string>(queryText);
     // displayMode
     const [displayMode, setDisplayMode] = useState<DisplayMode>(DisplayMode.TableList); // 默认是table 
     // rankMode
@@ -277,7 +293,7 @@ const MankaListPage: React.FC = () => {
                     <Box>
                         <SearchGroupStack/>
                     </Box>
-                    <Box >
+                    <Box>
                         <TextField
                             size={"small"}
                             fullWidth
@@ -384,7 +400,7 @@ const MankaListPage: React.FC = () => {
                                 </MenuItem>
                             </Select>
                             <IconButton disabled={loading} onClick={handleDisplayModeChange}>
-                                {displayMode === DisplayMode.TableList ? <GridViewIcon/>:<ListIcon/> }
+                                {displayMode === DisplayMode.TableList ? <GridViewIcon/> : <ListIcon/>}
                             </IconButton>
                         </Box>
                     </Box>
@@ -479,7 +495,7 @@ const MankaListPage: React.FC = () => {
                                 </MenuItem>
                             </Select>
                             <IconButton disabled={loading} onClick={handleDisplayModeChange}>
-                                {displayMode === DisplayMode.TableList ? <GridViewIcon/>:<ListIcon/> }
+                                {displayMode === DisplayMode.TableList ? <GridViewIcon/> : <ListIcon/>}
                             </IconButton>
                         </Box>
                     </Box>

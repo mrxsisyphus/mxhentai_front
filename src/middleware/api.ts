@@ -17,6 +17,10 @@ export const getLocalTestUrl = () => {
     return "http://127.0.0.1:8888/api/v1";
 };
 
+export const getLocalNetTestUrl = () => {
+    return "http://192.168.2.56:8888/api/v1";
+};
+
 class AppError extends Error{
     code: number
     message: string
@@ -33,7 +37,7 @@ class AppError extends Error{
 
 
 const API = axios.create({
-    baseURL: getRemoteTestUrl(),
+    baseURL: getBaseURL(),
     withCredentials: true,
 });
 

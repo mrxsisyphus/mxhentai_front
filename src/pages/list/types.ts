@@ -18,6 +18,13 @@ export enum RankField {
     ArchiveUpdatedTime = "updated_at",
     ArchiveTotalPage = "archive_total_page",
     ArchiveLastReadAt = "last_read_at"
+}
 
-
+export enum RankFieldFront {
+    ArchiveName = "archiveName",
+    ArchiveModTime = "archiveModTime",
+    ArchiveCreatedTime = "created_at",
+    ArchiveUpdatedTime = "updated_at",
+    ArchiveTotalPage = "archive_total_page",
+    ArchiveLastReadAt = "last_read_at"
 }

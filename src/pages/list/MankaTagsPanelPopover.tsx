@@ -68,19 +68,15 @@ export default function MankaTagsPanelPopover(options: MankaPopoverProps) {
             id="cover_papover"
             open={Boolean(anchorEl)}
             anchorEl={anchorEl}
-            // disableRestoreFocus 
-            //很重要
-            // sx={{
-            //     pointerEvents: 'none',
-            // }}
             onClose={onClose}
+            disableRestoreFocus
             anchorOrigin={{
-                vertical: 'top',
+                vertical: 'center',
                 horizontal: 'right',
             }}
             transformOrigin={{
                 vertical: 'top',
-                horizontal: 'left',
+                horizontal: 'center',
             }}
             {...props}
         >

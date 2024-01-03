@@ -1,13 +1,23 @@
 import React, {useEffect, useState} from 'react';
-import {ImageList, ImageListItem, ImageListItemBar, Paper, styled, Tooltip, Typography} from '@mui/material'
+import {
+    Card,
+    CardMedia,
+    ImageList,
+    ImageListItem,
+    ImageListItemBar,
+    Paper,
+    styled,
+    Tooltip,
+    Typography
+} from '@mui/material'
 import loadImg from '../../assets/images/anime_loading.gif'
 import errorImg from '../../assets/images/404.png'
 import {MankaArchive, MankaArchiveTag} from '../../types';
 import _ from 'lodash';
-import MankaTagsPanelPopover from './MankaTagsPanelPopover';
 import IconButton from "@mui/material/IconButton";
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import StarIcon from '@mui/icons-material/Star';
+import MankaTagsPanelPopover from "./MankaTagsPanelPopover";
 
 export interface MankaImgListPageProps {
 
@@ -38,7 +48,7 @@ export default function MankaImgListPage(options: MankaImgListPageProps) {
 
 
     // 当前的manka
-    const [currentManka, setCurrentManka] = useState<MankaArchive>();
+    // const [currentManka, setCurrentManka] = useState<MankaArchive>();
 
     const onCoverClick = (manka: MankaArchive) => {
         // setCurrentManka(manka)
@@ -81,46 +91,43 @@ export default function MankaImgListPage(options: MankaImgListPageProps) {
             };
         }, [manka.archiveCoverUrl]);
 
-        const onTagsMouseEnter = (event: React.MouseEvent<HTMLElement>, manka: MankaArchive) => {
-            setCurrentManka(manka)
+        const onTagsMouseEnter = (event: React.MouseEvent<HTMLElement>) => {
+            // setCurrentManka(manka)
             setTagsPanelPopoverAnchor(event.currentTarget)
         }
-
-        const onTagsMouseLeave = (event: React.MouseEvent<HTMLElement>, manka: MankaArchive) => {
-            setCurrentManka(manka)
-            setTagsPanelPopoverAnchor(null)
-        }
+        //
+        // const onTagsMouseLeave = (event: React.MouseEvent<HTMLElement>, manka: MankaArchive) => {
+        //     setCurrentManka(manka)
+        //     setTagsPanelPopoverAnchor(null)
+        // }
         return (
-            <React.Fragment>
-                {/* tagsPanel */}
-                {currentManka && <MankaTagsPanelPopover
-                    anchorEl={tagsPanelPopoverAnchor}
-                    onClose={() => setTagsPanelPopoverAnchor(null)}
-                    manka={currentManka}
-                    clickTagCallback={clickTagCallback}
-                />}
+            <>
                 <ImageListItem key={manka.archiveId}
                 >
                     <img
                         alt={manka.archiveName}
                         src={imageSrc}
+                        style={{cursor: 'pointer'}}
                         onClick={() => onCoverClick(manka)}
                         loading="lazy"
                     />
                     <ImageListItemBar
+                        sx={{whiteSpace: "normal"}}
                         title={<Tooltip title={manka.archiveName}>
-                            <Typography fontSize={"small"} >
-                                {manka.archiveName.length > 30 ? manka.archiveName.slice(0, 30) + "..." : manka.archiveName}
+                            <Typography fontSize={"small"}>
+                                {manka.archiveName.length > 50 ? manka.archiveName.slice(0, 50) + "..." : manka.archiveName}
                             </Typography>
                         </Tooltip>}
                         position="top"
                         actionIcon={manka.belongFavoriteId ? <Tooltip title={"取消收藏"}>
                             <IconButton aria-label="settings"
+                                        sx={{color: 'red'}}
                                         onClick={() => deleteFavorite && manka.belongFavoriteId ? deleteFavorite(manka.belongFavoriteId) : null}>
                                 <StarIcon/>
                             </IconButton>
                         </Tooltip> : <Tooltip title={"加入收藏"}>
                             <IconButton aria-label="settings"
+                                        sx={{color: 'green'}}
                                         onClick={() => addToFavorite ? addToFavorite(manka) : null}>
                                 <StarBorderIcon/>
                             </IconButton>
@@ -129,63 +136,18 @@ export default function MankaImgListPage(options: MankaImgListPageProps) {
                         actionPosition="left"
                     />
                     <ImageListItemBar
-                        title={manka.tags && <Typography fontSize={"small"} onMouseEnter={(e) => onTagsMouseEnter(e, manka)}
-                        >
+                        title={manka.tags && <Typography fontSize={"small"} onMouseEnter={onTagsMouseEnter}>
+                            <MankaTagsPanelPopover
+                                anchorEl={tagsPanelPopoverAnchor}
+                                onClose={() => setTagsPanelPopoverAnchor(null)}
+                                manka={manka}
+                                clickTagCallback={clickTagCallback}
+                            />
                             {manka.tags.length > 3 ? manka.tags.slice(0, 3).map(tag => tag.tagValue).join(",") + "..." : manka.tags.map(tag => tag.tagValue).join(",")}
                         </Typography>}
                     />
-                    {/*<Card*/}
-                    {/*    sx={{minWidth: 275}}*/}
-                    {/*    variant="outlined"*/}
-                    {/*    key={manka.archiveId}>*/}
-                    {/*    <CardHeader*/}
-                    {/*        action= {manka.belongFavoriteId ? <Tooltip title={"取消收藏"}>*/}
-                    {/*            <IconButton aria-label="settings"*/}
-                    {/*                        onClick={() => deleteFavorite && manka.belongFavoriteId? deleteFavorite(manka.belongFavoriteId) : null}>*/}
-                    {/*                <CloseIcon/>*/}
-                    {/*            </IconButton>*/}
-                    {/*        </Tooltip> : <Tooltip title={"加入收藏"}>*/}
-                    {/*            <IconButton aria-label="settings"*/}
-                    {/*                        onClick={() => addToFavorite ? addToFavorite(manka) : null}>*/}
-                    {/*                <AddIcon/>*/}
-                    {/*            </IconButton>*/}
-                    {/*        </Tooltip>*/}
-                    {/*    }*/}
-                    {/*        title={<Tooltip title={manka.archiveName}>*/}
-                    {/*            <Typography>*/}
-                    {/*                {manka.archiveName.length > 40 ? manka.archiveName.slice(0, 40) + "..." : manka.archiveName}*/}
-                    {/*            </Typography>*/}
-                    {/*        </Tooltip>}*/}
-                    {/*    />*/}
-                    {/*    <CardActionArea>*/}
-                    {/*        <CardMedia*/}
-                    {/*            component="img"*/}
-                    {/*            alt={manka.archiveName}*/}
-                    {/*            image={imageSrc}*/}
-                    {/*            loading="lazy"*/}
-                    {/*            // height={350}*/}
-                    {/*            onClick={() => onCoverClick(manka)}*/}
-                    {/*            // onLoad={handleImageLoad}*/}
-                    {/*            // onError={handleImageError}*/}
-                    {/*        />*/}
-                    {/*    </CardActionArea>*/}
-                    {/*    <CardContent>*/}
-                    {/*        /!*<div>*!/*/}
-                    {/*        /!*    <span>{`p${manka.archiveTotalPage}`}</span>*!/*/}
-                    {/*        /!*    <Divider orientation="vertical" flexItem/>*!/*/}
-                    {/*        /!*    <span>{formatLocalTime(manka.archiveModTime)}</span>*!/*/}
-                    {/*        /!*</div>*!/*/}
-                    {/*        /!* @ts-ignore*!/*/}
-                    {/*        {manka.tags && <Typography*/}
-                    {/*            onMouseEnter={(e) => onTagsMouseEnter(e, manka)}*/}
-                    {/*            // onMouseLeave={(e) => onTagsMouseLeave(e, manka)}*/}
-                    {/*        >*/}
-                    {/*            {manka.tags.length > 3 ? manka.tags.slice(0, 3).map(tag => tag.tagValue).join(",") + "..." : manka.tags.map(tag => tag.tagValue).join(",")}*/}
-                    {/*        </Typography>}*/}
-                    {/*    </CardContent>*/}
-                    {/*</Card>*/}
                 </ImageListItem>
-            </React.Fragment>
+            </>
 
         );
     };

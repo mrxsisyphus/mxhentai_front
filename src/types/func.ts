@@ -8,5 +8,6 @@ export interface TableColumn {
     style: CSSProperties | undefined;
     align?: 'inherit' | 'left' | 'center' | 'right' | 'justify';
     format?: (value: any, row: any) => React.ReactNode;
-    cellProps?:TableCellProps
+    fcFormat?: (value: any, row: any) => React.FC;
+    cellProps?: TableCellProps
 }

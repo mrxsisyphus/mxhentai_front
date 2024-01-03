@@ -1,18 +1,40 @@
-import {Favorite} from "../../types";
+import {Favorite, MankaArchive} from "../../types";
 import React, {useEffect, useState} from "react";
 import API from "../../middleware/api";
 import {Response} from "../../types/response";
-import {CircularProgress, Container, Typography} from "@mui/material";
-import FavoriteImgListPage from "./FavoriteImgListPage";
+import {
+    CircularProgress,
+    Container,
+    ImageList,
+    ImageListItem,
+    ImageListItemBar, Input, MenuItem, Select, SelectChangeEvent,
+    Tooltip,
+    Typography
+} from "@mui/material";
+import loadImg from "../../assets/images/anime_loading.gif";
+import errorImg from "../../assets/images/404.png";
+import IconButton from "@mui/material/IconButton";
+import StarIcon from "@mui/icons-material/Star";
+import MankaTagsPanelPopover from "./MankaTagsPanelPopover";
+import Box from "@mui/material/Box";
+import {ImgRankField, ImgRankMode} from "../detail/types";
+import TextRotationDownIcon from "@mui/icons-material/TextRotationDown";
+import TextRotateUpIcon from "@mui/icons-material/TextRotateUp";
+import {RankField, RankMode} from "./types";
 
 
 export default function FavoriteList() {
 
-    const [favoriteList, setFavoriteList] = useState<Favorite[]>();
+    const [favoriteList, setFavoriteList] = useState<Favorite[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
+
+
+
     useEffect(() => {
         fetchFavoriteList()
     }, []);
+
+
 
     const fetchFavoriteList = async () => {
         setLoading(true)
@@ -27,6 +49,8 @@ export default function FavoriteList() {
         }
     }
 
+
+
     const deleteFavorite = async (favorite: Favorite) => {
         console.log("deleteFavorite", favorite)
         try {
@@ -40,18 +64,115 @@ export default function FavoriteList() {
         }
     }
 
+    const onCoverClick = (manka: MankaArchive) => {
+        // setCurrentManka(manka)
+        console.log(`你点击了漫画：${manka.archiveName}`);
+        //跳转
+        window.location.href = `/manka/${manka.archiveId}`
+    }
+
+
+    // 自定义的 ComicItem 组件，包含标题、图片和其他信息
+    const FavoriteView: React.FC<{ favorite: Favorite }> = ({favorite}) => {
+        // const tagsInfo = manka.tags ? manka.tags.map(tag => tag.tagValue).join(",") : ""
+        // tagsPanelPopoverAnchor
+        const [tagsPanelPopoverAnchor, setTagsPanelPopoverAnchor] = useState<HTMLElement | null>(null);
+
+
+        const [imageSrc, setImageSrc] = useState<string>(loadImg);
+        useEffect(() => {
+            const img = new Image();
+            img.src = favorite.archive.archiveCoverUrl;
+
+            // loaded的钩子
+            img.onload = () => {
+                setImageSrc(favorite.archive.archiveCoverUrl);
+            };
+
+            img.onerror = () => {
+                // Setting to an actual image so CSS styling works consistently
+                setImageSrc(errorImg);
+            };
+
+            return () => {
+                img.onload = null;
+                img.onerror = null;
+            };
+        }, [favorite.archive.archiveCoverUrl]);
+
+        const onTagsMouseEnter = (event: React.MouseEvent<HTMLElement>) => {
+            setTagsPanelPopoverAnchor(event.currentTarget)
+        }
+
+
+        return (
+            <>
+                <ImageListItem key={favorite.archive.archiveId}
+                >
+                    <img
+                        alt={favorite.archive.archiveName}
+                        src={imageSrc}
+                        style={{cursor: 'pointer'}}
+                        onClick={() => onCoverClick(favorite.archive)}
+                        loading="lazy"
+                    />
+                    <ImageListItemBar
+                        sx={{whiteSpace: "normal"}}
+                        title={<Tooltip title={favorite.archive.archiveName}>
+                            <Typography fontSize={"small"}>
+                                {favorite.archive.archiveName.length > 50 ? favorite.archive.archiveName.slice(0, 50) + "..." : favorite.archive.archiveName}
+                            </Typography>
+                        </Tooltip>}
+                        position="top"
+                        actionIcon={<Tooltip title={"取消收藏"}>
+                            <IconButton aria-label="settings"
+                                        sx={{color: 'red'}}
+                                        onClick={async () => favorite.archive.belongFavoriteId ? deleteFavorite(favorite) : null}>
+                                <StarIcon/>
+                            </IconButton>
+                        </Tooltip>}
+                        actionPosition="left"
+                    />
+                    <ImageListItemBar
+                        title={favorite.archive.tags && <Typography fontSize={"small"} onMouseEnter={onTagsMouseEnter}>
+                            <MankaTagsPanelPopover
+                                anchorEl={tagsPanelPopoverAnchor}
+                                onClose={() => setTagsPanelPopoverAnchor(null)}
+                                manka={favorite.archive}
+                            />
+                            {favorite.archive.tags.length > 3 ? favorite.archive.tags.slice(0, 3).map(tag => tag.tagValue).join(",") + "..." : favorite.archive.tags.map(tag => tag.tagValue).join(",")}
+                        </Typography>}
+                    />
+                </ImageListItem>
+            </>
+        );
+    };
+
+
     return (
         <>
             <Container>
                 {
                     loading ? <CircularProgress/> :
-                        (favoriteList && favoriteList.length > 0 && <>
-                            <Typography>{`总收藏数: ${favoriteList.length}`}</Typography>
-                            <FavoriteImgListPage
-                                favorites={favoriteList}
-                                deleteFavorite={deleteFavorite}
-                            />
-                        </>)
+                        <>
+                            <Box display="flex" alignItems="center" justifyContent="space-between">
+                                <Box display="flex" alignItems="center" justifyContent="center">
+                                    <Typography>总收藏数： {favoriteList.length}</Typography>
+                                </Box>
+
+                            </Box>
+                            <Box>
+                                <ImageList
+                                    variant="standard"
+                                    // rowHeight={500}
+                                    cols={5}
+                                    gap={10}>
+                                    {favoriteList.map((favorite) => (
+                                        <FavoriteView favorite={favorite} key={favorite.favoriteId}/>
+                                    ))}
+                                </ImageList>
+                            </Box>
+                        </>
                 }
             </Container>
         </>
