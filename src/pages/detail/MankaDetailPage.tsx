@@ -47,6 +47,7 @@ export default function MankaDetailPage() {
     }, [])
 
     useEffect(() => {
+        if(imgItems.length <= 0) return
         updateImgItems()
     }, [imgRankMode, imgRankField]);
 
@@ -280,7 +281,7 @@ export default function MankaDetailPage() {
     }
 
     const PageImgViewer: React.FC = () => {
-        const [page, setPage] = useState<number>(1)
+        const [page, setPage] = useState<number>(mankaArchive && mankaArchive.lastReadPage > 1? mankaArchive.lastReadPage : 1)
         const onPageChange = (event: React.ChangeEvent<unknown>, page: number) => {
             setPage(page)
         }
@@ -296,7 +297,8 @@ export default function MankaDetailPage() {
                         showLastButton/>
                 </Box>
                 <Box>
-                    <ArchiveItemForPage archiveItem={imgItems[page - 1]} index={page - 1} key={imgItems[page - 1].archiveItemIndex}/>
+                    <ArchiveItemForPage archiveItem={imgItems[page - 1]} index={page - 1}
+                                        key={imgItems[page - 1].archiveItemIndex}/>
                 </Box>
                 <Box display="flex" alignItems="center" justifyContent="center">
                     <Pagination

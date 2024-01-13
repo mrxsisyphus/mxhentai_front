@@ -263,6 +263,10 @@ export default function MankaTableListPage(options: MankaTableListPageProps) {
             style: {minWidth: 100},
             align: "center",
             format: (tags: MankaArchiveTag[], row: MankaTableRow) => {
+                if (!tags || tags.length <= 0){
+                    return <>
+                    </>
+                }
                 // console.log("tags", tags, "row", row)
                 let tagsInfo = tags.length > 5 ? tags.slice(0, 5).map(tag => tag.tagValue).join(",") + "..." : tags.map(tag => tag.tagValue).join(",")
                 return <>
