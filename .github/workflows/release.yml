@@ -1,9 +1,9 @@
-name: Build and Release React App
+name: release
 
 on:
   push:
-    branches:
-      - 'v*.*.*'  # 当推送标签时触发，格式如 v1.0.0
+    tags:
+      - '*'  # 当推送标签时触发，格式如 v1.0.0
 
 jobs:
   build-and-release:
@@ -44,6 +44,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./build.tar.gz
-          asset_name: build.tar.gz
+          asset_path: ./dist.tar.gz
+          asset_name: dist.tar.gz
           asset_content_type: application/gzip
