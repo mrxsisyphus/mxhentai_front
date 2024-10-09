@@ -1,19 +1,15 @@
-import React, { ImgHTMLAttributes, useEffect, useState } from 'react'
-import loadImg from '../../assets/images/anime_loading.gif'
-import errorImg from '../../assets/images/404.png'
-import {
-  CardMedia, CardMediaProps
-} from '@mui/material'
+import React, { ImgHTMLAttributes, useEffect, useState } from "react";
+import errorImg from "../../assets/images/404.png";
+import loadImg from "../../assets/images/anime_loading.gif";
 export interface ImgProps<T> extends ImgHTMLAttributes<T> {
-  loadingImg?: string,
+  loadingImg?: string;
 
-  errorImg?: string,
+  errorImg?: string;
 
-  src: string,
+  src: string;
 
   onImageLoad?: () => void;
 }
-
 
 export default function Img(props: ImgProps<any>) {
   const { src, onImageLoad, loadingImg, errorImg, ...otherProps } = props;
@@ -45,16 +41,15 @@ export default function Img(props: ImgProps<any>) {
   return (
     <img
       style={{
-        height: 'inherit',
+        height: "inherit",
       }}
       {...otherProps}
       src={imageSrc}
     />
-  )
-
+  );
 }
 
 Img.defaultProps = {
   loadingImg: loadImg,
   errorImg: errorImg,
-}
+};
