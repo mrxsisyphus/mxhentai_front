@@ -6,46 +6,60 @@ on:
       - '*'  # 当推送标签时触发，格式如 v1.0.0
 
 jobs:
-  build-and-release:
+  # changelog displayed
+  changelog:
+    name: Create release changelog
     runs-on: ubuntu-latest
-    env:
-      CI: false
-
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/checkout@v4
         with:
-          node-version: '21'  # 指定 Node.js 版本
+          fetch-depth: 0
+
+      - name: Generate changelog
+        run: npx changelogithub # or changelogithub@0.12 if ensure the stable result
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+  release:
+    needs: changelog
+    env:
+      CI: false # ignore warning
+    strategy:
+      matrix:
+        platform: [ ubuntu-latest ]
+    name: Release
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18" # lts-node-js
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: mxhentai-front
+          persist-credentials: false
+          fetch-depth: 0
+          submodules: recursive
+      # use yarn
+      - name: Install Yarn
+        run: npm install --global yarn
 
       - name: Install dependencies
-        run: npm install
+        run: cd mxhentai-front && yarn install
 
-      - name: Build project
-        run: npm run build
+      - name: Build
+        run: yarn build
 
-      - name: Archive build
-        run: tar -czf build.tar.gz build
+      - name: Archive build files
+        run: cd mxhentai-front && mkdir -p compress && tar -czvf compress/dist.tar.gz build/*
 
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+            files: mxhentai-front/compress/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          draft: false
-          prerelease: false
-
-      - name: Upload Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./dist.tar.gz
-          asset_name: dist.tar.gz
-          asset_content_type: application/gzip
