@@ -3,7 +3,7 @@ name: release
 on:
   push:
     tags:
-      - '*'  # 当推送标签时触发，格式如 v1.0.0
+      - 'v*.*.*'  # 仅当推送符合语义化版本号的标签时触发，如 v1.0.0
 
 jobs:
   # changelog displayed
@@ -19,7 +19,7 @@ jobs:
       - name: Generate changelog
         run: npx changelogithub # or changelogithub@0.12 if ensure the stable result
         env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          GITHUB_TOKEN: ${{ secrets.MY_TOKEN }}
   release:
     needs: changelog
     env:
@@ -58,4 +58,4 @@ jobs:
         with:
             files: compress/*
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.MY_TOKEN }}
