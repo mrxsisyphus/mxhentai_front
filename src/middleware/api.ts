@@ -10,7 +10,7 @@ export const getBaseURL = () => {
 
 
 export const getRemoteTestUrl = () => {
-    return "http://live.stayhugry.top:7785/api/v1";
+    return "http://tcp.stayhugry.top:10011/api/v1";
 };
 
 export const getLocalTestUrl = () => {
@@ -37,7 +37,7 @@ class AppError extends Error{
 
 
 const API = axios.create({
-    baseURL: getBaseURL(),
+    baseURL: getRemoteTestUrl(),
     withCredentials: true,
 });
 

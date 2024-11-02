@@ -13,8 +13,8 @@ import {
 } from '@mui/material'
 import {MankaArchive, MankaArchiveTag} from '../../types';
 import _ from 'lodash';
-import MankaTagsPanelPopover from './MankaTagsPanelPopover';
-import MankaCoverPanelPopover from './MankaCoverPanelPopover';
+import MankaTagsPanelPopover from '../../components/MankaTagsPanelPopover';
+import MankaCoverPanelPopover from '../../components/MankaCoverPanelPopover';
 import {formatLocalTime} from '../../utils/datetime';
 import IconButton from "@mui/material/IconButton";
 import AddIcon from "@mui/icons-material/Add";
@@ -87,7 +87,7 @@ export default function MankaTableListPage(options: MankaTableListPageProps) {
     }, [mankaData]);
 
     const onTitleMouseEnter = (event: React.MouseEvent<HTMLElement>, manka: MankaArchive) => {
-        console.log("onTitleMouseEnter", event.currentTarget)
+        // console.log("onTitleMouseEnter", event.currentTarget)
         if (event.currentTarget) {
             setCurrentManka(manka)
             setCoverPopoverAnchor(event.currentTarget)

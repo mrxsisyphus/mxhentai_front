@@ -21,6 +21,7 @@ import {PageTask, PageTaskLog, Task, TaskLog} from "../../types";
 import {TableColumn} from "../../types/func";
 import {formatLocalTime} from "../../utils/datetime";
 import dayjs from "dayjs";
+import { useSnackbar } from 'notistack';
 
 
 export default function TaskLogPage() {
@@ -31,6 +32,7 @@ export default function TaskLogPage() {
     const [page, setPage] = React.useState(0);
     const [searchKey, setSearchKey] = React.useState("");
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const { enqueueSnackbar } = useSnackbar();
 
 
     useEffect(() => {
@@ -54,8 +56,8 @@ export default function TaskLogPage() {
             setPageData(pageData);
             setPageTotal(pageTotal);
         } catch (e) {
-            console.error(e)
-            alert(e)
+            console.error(e);
+            enqueueSnackbar(`${e}`, { variant: 'error' });
         } finally {
             setLoading(false);
         }

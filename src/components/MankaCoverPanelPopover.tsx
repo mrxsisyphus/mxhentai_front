@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {Card, CardMedia, Popover, PopoverProps} from '@mui/material';
-import {MankaArchive} from '../../types';
-import loadImg from "../../assets/images/anime_loading.gif";
-import errorImg from "../../assets/images/404.png";
+import {MankaArchive} from '../types';
+import loadImg from "../assets/images/anime_loading.gif";
+import errorImg from "../assets/images/404.png";
 
 export interface MankaPopoverProps {
 

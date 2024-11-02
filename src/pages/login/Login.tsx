@@ -12,12 +12,16 @@ import {
 import API from '../../middleware/api';
 import { Response } from '../../types/response';
 import Auth from '../../middleware/auth';
+import { useSnackbar } from 'notistack';
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
   const [loading,setLoading] = useState<boolean>(false)
+
+  const { enqueueSnackbar } = useSnackbar();
+
 
   const containerStyle: React.CSSProperties = {
     display: 'flex',
@@ -64,8 +68,8 @@ const Login: React.FC = () => {
         window.location.href="/"
     }catch(e){
         console.error("err",e)
-      alert(e)
-    }finally{
+        enqueueSnackbar(`${e}`, { variant: 'error' }) 
+      }finally{
         setLoading(false)
     }
   };

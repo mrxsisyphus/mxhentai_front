@@ -17,7 +17,7 @@ import _ from 'lodash';
 import IconButton from "@mui/material/IconButton";
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import StarIcon from '@mui/icons-material/Star';
-import MankaTagsPanelPopover from "./MankaTagsPanelPopover";
+import MankaTagsPanelPopover from "../../components/MankaTagsPanelPopover";
 
 export interface MankaImgListPageProps {
 

@@ -21,7 +21,7 @@ import {PageTask, Task} from "../../types";
 import {TableColumn} from "../../types/func";
 import {formatLocalTime} from "../../utils/datetime";
 import dayjs from "dayjs";
-
+import { useSnackbar } from 'notistack';
 
 export default function TaskPage() {
 
@@ -32,7 +32,7 @@ export default function TaskPage() {
     const [searchKey, setSearchKey] = React.useState("");
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
-
+    const { enqueueSnackbar } = useSnackbar();
     useEffect(() => {
         loadPage();
         // eslint-disable-next-line66
@@ -55,7 +55,7 @@ export default function TaskPage() {
             setPageTotal(pageTotal);
         } catch (e) {
             console.error(e)
-            alert(e)
+            enqueueSnackbar(`${e}`, { variant: 'error' }) 
         } finally {
             setLoading(false);
         }
@@ -150,7 +150,7 @@ export default function TaskPage() {
             await API.post<Response<PageTask>>("/task/trigger/scan", body)
         } catch (e) {
             console.error(e)
-            alert(e)
+            enqueueSnackbar(`${e}`, { variant: 'error' }) 
         } finally {
 
         }

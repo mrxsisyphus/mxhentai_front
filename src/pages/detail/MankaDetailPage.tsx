@@ -5,6 +5,7 @@ import {
     ButtonGroup,
     Card,
     CardMedia,
+    Chip,
     CircularProgress,
     Container,
     Input,
@@ -12,6 +13,7 @@ import {
     Pagination,
     Select,
     SelectChangeEvent,
+    Stack,
     Typography
 } from '@mui/material';
 import {useParams} from "react-router";
@@ -27,7 +29,9 @@ import TextRotationDownIcon from "@mui/icons-material/TextRotationDown";
 import TextRotateUpIcon from "@mui/icons-material/TextRotateUp";
 import _ from "lodash";
 import InfiniteScroll from 'react-infinite-scroller';
-
+import { useSnackbar } from 'notistack';
+import { useNavigate } from "react-router-dom";
+import TagsPanel from '../../components/TagsPanel';
 const preloadPage = 8
 
 
@@ -41,6 +45,9 @@ export default function MankaDetailPage() {
     const [imgRankMode, setImgRankMode] = useState<ImgRankMode>(ImgRankMode.ASC); // 默认是asc
     const [imgSpec, setImgSpec] = useState<ImgSpec>(ImgSpec.NormalImg);
     const [favoriteId, setFavoriteId] = useState<string | undefined>(undefined);
+    const { enqueueSnackbar } = useSnackbar();
+    const navigate = useNavigate();
+
     useEffect(() => {
         console.log("mankaId", mankaId)
         fetchMankaDetail()
@@ -101,7 +108,7 @@ export default function MankaDetailPage() {
             setFavoriteId(data.belongFavoriteId)
         } catch (e) {
             console.error("err", e)
-            alert(e)
+            enqueueSnackbar(`${e}`, { variant: 'error' }) 
         } finally {
             setLoading(false)
         }
@@ -219,7 +226,7 @@ export default function MankaDetailPage() {
             setFavoriteId(data.favoriteId)
         } catch (e) {
             console.error("err", e)
-            alert(e)
+            enqueueSnackbar(`${e}`, { variant: 'error' }) 
         } finally {
         }
     }
@@ -232,7 +239,7 @@ export default function MankaDetailPage() {
             setFavoriteId(undefined)
         } catch (e) {
             console.error("err", e)
-            alert(e)
+            enqueueSnackbar(`${e}`, { variant: 'error' }) 
         } finally {
         }
     }
@@ -312,6 +319,28 @@ export default function MankaDetailPage() {
         </>
     }
 
+    const TagStack: React.FC = () => {
+        return (
+          <React.Fragment>
+            <Stack direction="row" spacing={1} flexWrap="wrap">
+              {mankaArchive?.tags &&
+                mankaArchive?.tags.length > 0 &&
+                mankaArchive?.tags.map((tag) => (
+                  <Chip
+                    label={`${tag.tagName}:${tag.tagValue}`}
+                    variant="outlined"
+                    key={`${tag.tagName}:${tag.tagValue}`}
+                    size={"small"}
+                    onClick={() => {
+                        navigate(`/?kw=${tag.tagName}:${tag.tagValue}`)
+                    }}
+                     />
+                ))}
+            </Stack>
+          </React.Fragment>
+        );
+      };
+
 
     return (
         <Container>
@@ -320,7 +349,10 @@ export default function MankaDetailPage() {
             <Box>
                 {/*标题*/}
                 <Box display="flex" alignItems="center" justifyContent="center">
-                    <Typography>{`标题: ${mankaArchive?.archiveName}`}</Typography>
+                    <Typography>{`${mankaArchive?.archiveName}`}</Typography>
+                </Box>
+                <Box display="flex" alignItems="center" justifyContent="center">
+                   <TagStack/>
                 </Box>
                 {/*整个漫画的操作项目*/}
                 <Box display="flex" alignItems="center" justifyContent="space-between">
