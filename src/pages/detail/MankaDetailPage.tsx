@@ -63,10 +63,8 @@ export default function MankaDetailPage() {
     }
 
     const getImgUrl = (archiveItem: ArchiveItem) => {
-       return `/api/v1/manka/${mankaId}/image/${archiveItem.archiveItemIndex}/${imgSpec}`
+       return `/api/v1/manka/${mankaId}/${archiveItem.archiveItemIndex}/${imgSpec}/link`
     }
-
-
     const handleImgRankFieldChange = (e: SelectChangeEvent<ImgRankField>) => {
 
         setImgRankField(e.target.value as ImgRankField)

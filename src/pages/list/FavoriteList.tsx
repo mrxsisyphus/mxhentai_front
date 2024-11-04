@@ -234,7 +234,7 @@ export default function FavoriteList() {
               justifyContent="space-between"
             >
               <Box display="flex" alignItems="center" justifyContent="center">
-                <Typography>总收藏数： {favoriteList.length}</Typography>
+                <Typography>总收藏数： {favoriteList?.length || 0}</Typography>
               </Box>
             </Box>
             <Box
@@ -249,7 +249,7 @@ export default function FavoriteList() {
                 cols={5}
                 gap={10}
               >
-                {favoriteList.map((favorite) => (
+                {favoriteList?.map((favorite) => (
                   <FavoriteView favorite={favorite} key={favorite.favoriteId} />
                 ))}
               </ImageList>

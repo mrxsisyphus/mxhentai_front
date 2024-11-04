@@ -8,6 +8,7 @@ import AuthWrapComponent from './AuthWrapComponent';
 import FavoriteList from "./pages/list/FavoriteList";
 import TaskPage from "./pages/admin/TaskPage";
 import TaskLogPage from "./pages/admin/TaskLogPage";
+import Config from './pages/config/Config';
 
 const darkTheme = createTheme({
     palette: {
@@ -55,6 +56,9 @@ function App() {
                         >
                             TaskLogs
                         </Link>
+                        <Link underline="hover" color="inherit" href="/config">
+                            Config
+                        </Link>
                     </Breadcrumbs>
                     <Routes>
                         <Route path="/" element={<AuthWrapComponent>
@@ -73,6 +77,9 @@ function App() {
                             <MankaDetailPage/>
                         </AuthWrapComponent>}/>
                         <Route path="/login" element={<Login/>}/>
+                        <Route path="/config" element={<AuthWrapComponent>
+                            <Config />
+                        </AuthWrapComponent>} />
                         <Route path="*" element={<Navigate replace to="/"/>}/>
                     </Routes>
                 </BrowserRouter>
@@ -108,6 +115,9 @@ function App() {
                 {/*                    <MankaDetailPage/>*/}
                 {/*                </AuthWrapComponent>}/>*/}
                 {/*                <Route path="/login" element={<Login/>}/>*/}
+                {/*                <Route path="/config" element={<AuthWrapComponent>*/}
+                {/*                    <Config />*/}
+                {/*                </AuthWrapComponent>} />*/}
                 {/*                <Route path="*" element={<Navigate replace to="/"/>}/>*/}
                 {/*            </Routes>*/}
 

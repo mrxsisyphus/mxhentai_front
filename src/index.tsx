@@ -10,7 +10,7 @@ const root = ReactDOM.createRoot(
 );
 root.render(
     <ConfirmProvider>
-    <SnackbarProvider autoHideDuration={6000} maxSnack={3}>
+    <SnackbarProvider autoHideDuration={3000} maxSnack={3}>
       <App />
     </SnackbarProvider>
   </ConfirmProvider>
