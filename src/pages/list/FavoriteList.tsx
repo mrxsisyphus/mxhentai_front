@@ -205,18 +205,18 @@ export default function FavoriteList() {
     return (
       <>
         <InfiniteScroll
-            pageStart={0}
-            loadMore={loadMoreItems} //loadMore
-            initialLoad={true}
-            loader={<CircularProgress key={"loading"} />}
-            hasMore={loadedItems.length < favoriteList.length}
-            threshold={600}
-            useWindow={false}
-          >
-            {loadedItems.map((favorite, index) => (
-              <FavoriteView favorite={favorite} key={favorite.favoriteId} />
-            ))}
-          </InfiniteScroll>
+          pageStart={0}
+          loadMore={loadMoreItems} //loadMore
+          initialLoad={true}
+          loader={<CircularProgress key={"loading"} />}
+          hasMore={loadedItems.length < favoriteList.length}
+          threshold={600}
+          useWindow={false}
+        >
+          {loadedItems.map((favorite, index) => (
+            <FavoriteView favorite={favorite} key={favorite.favoriteId} />
+          ))}
+        </InfiniteScroll>
       </>
     );
   };
@@ -237,21 +237,24 @@ export default function FavoriteList() {
                 <Typography>总收藏数： {favoriteList.length}</Typography>
               </Box>
             </Box>
-            <Box sx={{
-                height: '100vh', // 设置高度为视口的高度
-                overflowY: 'auto', // 设置垂直滚动
-            }}>
-              {/* <ImageList
-                                    variant="standard"
-                                    // rowHeight={500}
-                                    cols={5}
-                                    gap={10}>
-                                    {favoriteList.map((favorite) => (
-                                        <FavoriteView favorite={favorite} key={favorite.favoriteId}/>
-                                    ))}
-                                </ImageList> */}
+            <Box
+              sx={{
+                height: "100vh", // 设置高度为视口的高度
+                overflowY: "auto", // 设置垂直滚动
+              }}
+            >
+              <ImageList
+                variant="standard"
+                // rowHeight={500}
+                cols={5}
+                gap={10}
+              >
+                {favoriteList.map((favorite) => (
+                  <FavoriteView favorite={favorite} key={favorite.favoriteId} />
+                ))}
+              </ImageList>
 
-              <InfinityImgViewer />
+              {/* <InfinityImgViewer /> */}
             </Box>
           </>
         )}
