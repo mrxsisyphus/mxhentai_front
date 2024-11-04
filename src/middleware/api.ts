@@ -37,7 +37,7 @@ class AppError extends Error{
 
 
 const API = axios.create({
-    baseURL: getRemoteTestUrl(),
+    baseURL: getBaseURL(),
     withCredentials: true,
 });
 

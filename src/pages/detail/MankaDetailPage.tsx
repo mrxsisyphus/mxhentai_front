@@ -43,7 +43,7 @@ export default function MankaDetailPage() {
     const [imgDisplayMode, setImgDisplayMode] = useState<DetailImgMode>(DetailImgMode.PageMode); // 默认是table
     const [imgRankField, setImgRankField] = useState<ImgRankField>(ImgRankField.ImgIndex);// 默认是按照index升序
     const [imgRankMode, setImgRankMode] = useState<ImgRankMode>(ImgRankMode.ASC); // 默认是asc
-    const [imgSpec, setImgSpec] = useState<ImgSpec>(ImgSpec.NormalImg);
+    const [imgSpec, setImgSpec] = useState<ImgSpec>(ImgSpec.X1080Compress);
     const [favoriteId, setFavoriteId] = useState<string | undefined>(undefined);
     const { enqueueSnackbar } = useSnackbar();
     const navigate = useNavigate();
@@ -63,14 +63,7 @@ export default function MankaDetailPage() {
     }
 
     const getImgUrl = (archiveItem: ArchiveItem) => {
-        switch (imgSpec) {
-            case ImgSpec.ThumbImg:
-                return archiveItem.archiveItemThumbUrl
-            case ImgSpec.NormalImg:
-                return archiveItem.archiveItemUrl
-            case ImgSpec.OriginImg:
-                return archiveItem.archiveItemOriginUrl
-        }
+       return `/api/v1/manka/${mankaId}/image/${archiveItem.archiveItemIndex}/${imgSpec}`
     }
 
 
@@ -433,11 +426,15 @@ export default function MankaDetailPage() {
                             disabled={loading}
 
                         >
-                            <MenuItem value={ImgSpec.NormalImg}>常规图片
+                            <MenuItem value={ImgSpec.Thumb}>缩略图
                             </MenuItem>
-                            <MenuItem value={ImgSpec.ThumbImg}>缩略图
+                            <MenuItem value={ImgSpec.X720Compress}>720x
                             </MenuItem>
-                            <MenuItem value={ImgSpec.OriginImg}>原图
+                            <MenuItem value={ImgSpec.X1080Compress}>1080x
+                            </MenuItem>
+                            <MenuItem value={ImgSpec.NoResizeCompress}>无裁切图
+                            </MenuItem>
+                            <MenuItem value={ImgSpec.Origin}>原图
                             </MenuItem>
                         </Select>
                     </Box>

@@ -50,9 +50,7 @@ export interface PageMankaArchive {
 export interface ArchiveItem {
     archiveItemName: string;
     archiveItemIndex: number;
-    archiveItemUrl: string;
-    archiveItemThumbUrl: string;
-    archiveItemOriginUrl: string;
+    archiveItemId: string
     archiveItemPath: string;
     archiveItemSize: number;
     archiveItemModTime: string;
