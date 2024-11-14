@@ -41,7 +41,7 @@ export default function MankaDetailPage() {
     const [loading, setLoading] = useState<boolean>(false);
     const [imgItems, setImgItems] = useState<ArchiveItem[]>([]);
     const [imgDisplayMode, setImgDisplayMode] = useState<DetailImgMode>(DetailImgMode.PageMode); // 默认是table
-    const [imgRankField, setImgRankField] = useState<ImgRankField>(ImgRankField.ImgName);// 默认是按照index升序
+    const [imgRankField, setImgRankField] = useState<ImgRankField>(ImgRankField.ImgName);// 默认是按照name升序
     const [imgRankMode, setImgRankMode] = useState<ImgRankMode>(ImgRankMode.ASC); // 默认是asc
     const [imgSpec, setImgSpec] = useState<ImgSpec>(ImgSpec.X1280Compress);
     const [favoriteId, setFavoriteId] = useState<string | undefined>(undefined);

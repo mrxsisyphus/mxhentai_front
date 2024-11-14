@@ -11,8 +11,8 @@ export enum ImgRankMode {
 }
 
 export enum ImgRankField {
-    ImgIndex = "archiveItemIndex", //默认是 这个
-    ImgName = "archiveItemName",
+    ImgIndex = "archiveItemIndex", 
+    ImgName = "archiveItemName", //默认是 这个
     ImgSize = "archiveItemSize"
 }
 
