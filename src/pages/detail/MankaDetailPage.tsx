@@ -43,7 +43,7 @@ export default function MankaDetailPage() {
     const [imgDisplayMode, setImgDisplayMode] = useState<DetailImgMode>(DetailImgMode.PageMode); // 默认是table
     const [imgRankField, setImgRankField] = useState<ImgRankField>(ImgRankField.ImgName);// 默认是按照index升序
     const [imgRankMode, setImgRankMode] = useState<ImgRankMode>(ImgRankMode.ASC); // 默认是asc
-    const [imgSpec, setImgSpec] = useState<ImgSpec>(ImgSpec.X1080Compress);
+    const [imgSpec, setImgSpec] = useState<ImgSpec>(ImgSpec.X1280Compress);
     const [favoriteId, setFavoriteId] = useState<string | undefined>(undefined);
     const { enqueueSnackbar } = useSnackbar();
     const navigate = useNavigate();
@@ -428,7 +428,7 @@ export default function MankaDetailPage() {
                             </MenuItem>
                             <MenuItem value={ImgSpec.X720Compress}>720x
                             </MenuItem>
-                            <MenuItem value={ImgSpec.X1080Compress}>1080x
+                            <MenuItem value={ImgSpec.X1280Compress}>1280x
                             </MenuItem>
                             <MenuItem value={ImgSpec.NoResizeCompress}>无裁切图
                             </MenuItem>

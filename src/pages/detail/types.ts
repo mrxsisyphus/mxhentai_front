@@ -19,7 +19,7 @@ export enum ImgRankField {
 export enum ImgSpec {
     Thumb = "thumb",
     X720Compress = "c720",
-    X1080Compress = "c1080",
+    X1280Compress = "c1280",
     NoResizeCompress = "no_resize",
     Origin = "origin",
 }
