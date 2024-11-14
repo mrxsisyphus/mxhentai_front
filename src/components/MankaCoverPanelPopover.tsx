@@ -3,6 +3,7 @@ import {Card, CardMedia, Popover, PopoverProps} from '@mui/material';
 import {MankaArchive} from '../types';
 import loadImg from "../assets/images/anime_loading.gif";
 import errorImg from "../assets/images/404.png";
+import { useNavigate } from 'react-router-dom';
 
 export interface MankaPopoverProps {
 
@@ -23,11 +24,8 @@ export default function MankaCoverPanelPopover(options: MankaPopoverProps) {
 
     const onCoverClick = (manka: MankaArchive) => {
         // setCurrentManka(manka)
-        console.log(`你点击了漫画：${manka.archiveName}`);
-        //打开漫画
-        setTimeout(() => {
-            window.location.href = `/manka/${manka.archiveId}`
-        }, 100)
+        const navigate = useNavigate();
+        navigate(`/manka/${manka.archiveId}`);
     }
 
     const CoverPanel: React.FC = () => {
