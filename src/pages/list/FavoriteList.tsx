@@ -34,6 +34,7 @@ const preloadPage = 8;
 export default function FavoriteList() {
   const [favoriteList, setFavoriteList] = useState<Favorite[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   const { enqueueSnackbar } = useSnackbar();
 
@@ -71,9 +72,11 @@ export default function FavoriteList() {
 
   const onCoverClick = (manka: MankaArchive) => {
     // setCurrentManka(manka)
-    console.log(`你点击了漫画：${manka.archiveName}`);
-    //跳转
-    window.location.href = `/manka/${manka.archiveId}`;
+    // console.log(`你点击了漫画：${manka.archiveName}`);
+    // //跳转
+    // window.location.href = `/manka/${manka.archiveId}`;
+
+    navigate(`/manka/${manka.archiveId}`);
   };
 
   // 自定义的 ComicItem 组件，包含标题、图片和其他信息

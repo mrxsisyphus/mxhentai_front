@@ -21,10 +21,10 @@ export interface MankaPopoverProps {
 export default function MankaCoverPanelPopover(options: MankaPopoverProps) {
 
     const {anchorEl, props, onClose, manka} = options
+    const navigate = useNavigate();
 
     const onCoverClick = (manka: MankaArchive) => {
         // setCurrentManka(manka)
-        const navigate = useNavigate();
         navigate(`/manka/${manka.archiveId}`);
     }
 

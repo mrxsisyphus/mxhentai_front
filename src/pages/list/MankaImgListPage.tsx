@@ -18,6 +18,7 @@ import IconButton from "@mui/material/IconButton";
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import StarIcon from '@mui/icons-material/Star';
 import MankaTagsPanelPopover from "../../components/MankaTagsPanelPopover";
+import { useNavigate } from 'react-router-dom';
 
 export interface MankaImgListPageProps {
 
@@ -45,16 +46,18 @@ const getTagValuesMap = (tags: MankaArchiveTag[] | undefined) => {
 export default function MankaImgListPage(options: MankaImgListPageProps) {
 
     const {mankaData, clickTagCallback, addToFavorite, deleteFavorite} = options
+    const navigate = useNavigate();
 
 
     // 当前的manka
     // const [currentManka, setCurrentManka] = useState<MankaArchive>();
 
     const onCoverClick = (manka: MankaArchive) => {
-        // setCurrentManka(manka)
-        console.log(`你点击了漫画：${manka.archiveName}`);
-        //跳转
-        window.location.href = `/manka/${manka.archiveId}`
+        // // setCurrentManka(manka)
+        // console.log(`你点击了漫画：${manka.archiveName}`);
+        // //跳转
+        // window.location.href = `/manka/${manka.archiveId}`
+        navigate(`/manka/${manka.archiveId}`);
     }
     const CustomImageListItemBar = styled(ImageListItemBar)({
         '& .MuiImageListItemBar-titleWrap': {
